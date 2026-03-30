@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guía: Tarifa de Movilidad Eléctrica – EPEC</title>
+  <style>
+    /* ── Variables ── */
+    :root {
+      --sidebar-w:    280px;
+      --verde:        #2e7d32;
+      --verde-hover:  #e8f5e9;
+      --verde-active: #c8e6c9;
+      --verde-border: #43a047;
+      --texto:        #1c1c1c;
+      --texto-suave:  #555;
+      --borde:        #dde1e7;
+      --fondo:        #f7f8fa;
+      --blanco:       #ffffff;
+      --amarillo-bg:  #fffbea;
+      --amarillo-borde: #f0c040;
+      --rojo-bg:      #fff0f0;
+      --rojo-borde:   #d32f2f;
+      --azul-bg:      #f0f4ff;
+      --azul-borde:   #3949ab;
+      --radio:        8px;
+      --fuente:       'Segoe UI', Arial, sans-serif;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 17px; }
+    body { font-family: var(--fuente); color: var(--texto); background: var(--fondo); display: flex; flex-direction: column; min-height: 100vh; }
+    a { color: var(--verde); }
+    a:focus-visible { outline: 3px solid var(--verde-border); outline-offset: 2px; border-radius: 3px; }
+    img { max-width: 100%; }
+
+    /* ── Skip link ── */
+    .skip { position: absolute; left: -9999px; top: 6px; background: #000; color: #fff; padding: 6px 14px; border-radius: 4px; font-size: .9rem; z-index: 9999; }
+    .skip:focus { left: 6px; }
+
+    /* ═══════════════════════════════════
+       TOP BAR
+    ═══════════════════════════════════ */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 52px;
+      background: var(--verde);
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.25);
+    }
+    .topbar-brand {
+      display: flex; align-items: center; gap: 10px;
+      color: #fff; text-decoration: none; font-weight: 700; font-size: 1rem;
+    }
+    .topbar-brand span { opacity: .7; font-weight: 400; font-size: .85rem; margin-left: 6px; }
+    .topbar-sep { flex: 1; }
+    .topbar-epec { color: #a5d6a7; font-size: .8rem; }
+
+    /* Hamburger – visible solo en móvil */
+    .sidebar-toggle {
+      display: none;
+      background: none; border: none; color: #fff; font-size: 22px;
+      cursor: pointer; padding: 4px 6px; border-radius: 4px;
+    }
+    .sidebar-toggle:hover { background: rgba(255,255,255,.15); }
+
+    /* ═══════════════════════════════════
+       LAYOUT PRINCIPAL
+    ═══════════════════════════════════ */
+    .layout {
+      display: flex;
+      margin-top: 52px; /* alto del topbar */
+      min-height: calc(100vh - 52px);
+    }
+
+    /* ═══════════════════════════════════
+       SIDEBAR
+    ═══════════════════════════════════ */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      background: var(--blanco);
+      border-right: 1px solid var(--borde);
+      position: sticky;
+      top: 52px;
+      height: calc(100vh - 52px);
+      overflow-y: auto;
+      padding: 20px 0 40px;
+    }
+
+    /* Scrollbar sidebar */
+    .sidebar::-webkit-scrollbar { width: 5px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--borde); border-radius: 10px; }
+
+    .sidebar-section-title {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--texto-suave);
+      padding: 16px 20px 6px;
+    }
+
+    /* Items de navegación */
+    .nav-item {
+      display: block;
+      text-decoration: none;
+      color: var(--texto);
+      font-size: .92rem;
+      padding: 7px 20px;
+      border-left: 3px solid transparent;
+      transition: background .15s, border-color .15s;
+      cursor: pointer;
+      line-height: 1.4;
+    }
+    .nav-item:hover { background: var(--verde-hover); }
+    .nav-item.active {
+      background: var(--verde-hover);
+      border-left-color: var(--verde);
+      color: var(--verde);
+      font-weight: 600;
+    }
+    .nav-item.sub {
+      padding-left: 36px;
+      font-size: .87rem;
+      color: var(--texto-suave);
+    }
+    .nav-item.sub.active { color: var(--verde); }
+
+    .nav-step-num {
+      display: inline-block;
+      background: var(--verde);
+      color: #fff;
+      font-size: .68rem;
+      font-weight: 700;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      text-align: center; line-height: 20px;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+    .nav-item.active .nav-step-num { background: var(--verde); }
+
+    /* ═══════════════════════════════════
+       CONTENIDO PRINCIPAL
+    ═══════════════════════════════════ */
+    .content {
+      flex: 1;
+      min-width: 0;
+      padding: 40px 48px 80px;
+      max-width: 820px;
+    }
+
+    /* Secciones de contenido */
+    .doc-section {
+      display: none;
+      animation: fadeIn .2s ease;
+    }
+    .doc-section.visible { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      font-size: .8rem; color: var(--texto-suave);
+      margin-bottom: 20px; display: flex; align-items: center; gap: 6px;
+    }
+    .breadcrumb span { opacity: .5; }
+
+    /* Título de sección */
+    .doc-section h1 {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800;
+      color: var(--texto);
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+    .doc-section .subtitle {
+      font-size: 1rem;
+      color: var(--texto-suave);
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--borde);
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--texto);
+      margin: 32px 0 12px;
+    }
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--verde);
+      margin: 24px 0 8px;
+    }
+    p { line-height: 1.75; margin-bottom: 14px; }
+    ul, ol { padding-left: 22px; margin-bottom: 14px; }
+    li { line-height: 1.7; margin-bottom: 4px; }
+
+    /* ── Callouts ── */
+    .callout {
+      border-radius: var(--radio);
+      padding: 14px 18px;
+      margin: 20px 0;
+      display: flex; gap: 12px;
+      font-size: .95rem; line-height: 1.65;
+    }
+    .callout-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .callout p { margin: 0; }
+    .callout strong { display: block; margin-bottom: 3px; }
+    .callout.aviso   { background: var(--amarillo-bg); border: 1px solid var(--amarillo-borde); }
+    .callout.alerta  { background: var(--rojo-bg);     border: 1px solid var(--rojo-borde); }
+    .callout.tip     { background: var(--azul-bg);     border: 1px solid var(--azul-borde); }
+    .callout.ok      { background: #f1f8f2;            border: 1px solid #81c784; }
+
+    /* ── Tabla de datos ── */
+    .data-table {
+      width: 100%; border-collapse: collapse; margin: 16px 0; font-size: .93rem;
+    }
+    .data-table th {
+      background: var(--verde); color: #fff;
+      padding: 10px 14px; text-align: left; font-weight: 600;
+    }
+    .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--borde); vertical-align: top; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: var(--fondo); }
+
+    /* ── Código / Leyenda exacta ── */
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: var(--radio);
+      padding: 16px 20px;
+      font-family: 'Courier New', monospace;
+      font-size: .88rem;
+      line-height: 1.6;
+      margin: 14px 0;
+      overflow-x: auto;
+      position: relative;
+    }
+    .code-label {
+      font-size: .72rem; font-weight: 700; letter-spacing: .5px;
+      color: var(--texto-suave); text-transform: uppercase; margin-bottom: 6px;
+    }
+
+    /* ── Checklist de documento ── */
+    .checklist { list-style: none; padding: 0; margin: 14px 0; }
+    .checklist li {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--borde);
+      border-radius: var(--radio);
+      margin-bottom: 8px;
+      background: var(--blanco);
+      font-size: .95rem;
+    }
+    .checklist li .ci { font-size: 1.2rem; margin-top: 1px; flex-shrink: 0; }
+    .checklist li .ct strong { display: block; margin-bottom: 2px; }
+    .checklist li .ct small  { color: var(--texto-suave); font-size: .85rem; }
+    .badge {
+      display: inline-block; font-size: .72rem; font-weight: 700;
+      padding: 2px 8px; border-radius: 10px; margin-left: 6px; vertical-align: middle;
+    }
+    .badge.cond    { background: #e3f2fd; color: #1565c0; }
+    .badge.req     { background: #e8f5e9; color: #2e7d32; }
+
+    /* ── Ejemplo de documento (mockup visual) ── */
+    .doc-example {
+      border: 1px solid var(--borde); border-radius: var(--radio);
+      overflow: hidden; margin: 16px 0; background: var(--blanco);
+      box-shadow: 0 1px 6px rgba(0,0,0,.08);
+    }
+    .doc-example-header {
+      background: var(--fondo); border-bottom: 1px solid var(--borde);
+      padding: 8px 16px; font-size: .78rem; color: var(--texto-suave);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .doc-example-header .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .doc-example-header .dot.verde  { background: #4caf50; }
+    .doc-example-header .dot.rojo   { background: #ef5350; }
+    .doc-example-header .dot.amarillo { background: #ffc107; }
+    .doc-example-body {
+      padding: 20px 24px;
+      font-size: .88rem;
+      line-height: 1.7;
+    }
+    .doc-example-body .field { margin-bottom: 10px; }
+    .doc-example-body .label { font-size: .72rem; text-transform: uppercase; letter-spacing: .5px; color: var(--texto-suave); display: block; margin-bottom: 2px; }
+    .doc-example-body .value { font-weight: 600; }
+    .doc-example-body .value.ok    { color: #2e7d32; }
+    .doc-example-body .value.error { color: #c62828; }
+    .doc-example-body .highlight-box {
+      background: var(--verde-hover); border: 1px solid var(--verde-border);
+      border-radius: 6px; padding: 10px 14px; margin-top: 10px; font-size: .87rem;
+    }
+    .doc-example-body .highlight-box.malo {
+      background: var(--rojo-bg); border-color: var(--rojo-borde);
+    }
+
+    /* ── Paso a paso numerado (dentro del contenido) ── */
+    .steps { margin: 20px 0; }
+    .step {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding-bottom: 24px; position: relative;
+    }
+    .step:not(:last-child)::before {
+      content: ''; position: absolute;
+      left: 16px; top: 36px; bottom: 0; width: 2px;
+      background: var(--borde);
+    }
+    .step-num {
+      width: 34px; height: 34px; flex-shrink: 0;
+      background: var(--verde); color: #fff;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .9rem; position: relative; z-index: 1;
+    }
+    .step-body { flex: 1; padding-top: 4px; }
+    .step-body h3 { margin-top: 0; color: var(--texto); font-size: 1rem; }
+    .step-body p  { font-size: .93rem; }
+
+    /* ── Navegación inferior ── */
+    .doc-nav {
+      display: flex; justify-content: space-between; gap: 16px;
+      margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--borde);
+    }
+    .doc-nav-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--blanco); border: 1px solid var(--borde);
+      border-radius: var(--radio); padding: 12px 18px;
+      text-decoration: none; color: var(--texto);
+      font-size: .9rem; transition: border-color .15s, background .15s;
+      flex: 1; max-width: 240px;
+    }
+    .doc-nav-btn:hover { border-color: var(--verde); background: var(--verde-hover); }
+    .doc-nav-btn.next { margin-left: auto; text-align: right; flex-direction: row-reverse; }
+    .doc-nav-btn .nav-dir { font-size: .72rem; color: var(--texto-suave); display: block; margin-bottom: 2px; }
+    .doc-nav-btn .nav-label { font-weight: 600; font-size: .88rem; }
+
+    /* ═══════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════ */
+    @media (max-width: 800px) {
+      .sidebar-toggle { display: block; }
+
+      .sidebar {
+        position: fixed;
+        top: 52px; left: 0; bottom: 0;
+        z-index: 150;
+        transform: translateX(-100%);
+        transition: transform .25s ease;
+        box-shadow: 4px 0 20px rgba(0,0,0,.15);
+      }
+      .sidebar.open { transform: translateX(0); }
+
+      .sidebar-overlay {
+        display: none;
+        position: fixed; inset: 52px 0 0 0;
+        background: rgba(0,0,0,.35); z-index: 140;
+      }
+      .sidebar-overlay.open { display: block; }
+
+      .content {
+        padding: 28px 20px 60px;
+      }
+
+      .doc-nav { flex-direction: column; }
+      .doc-nav-btn { max-width: 100%; }
+      .doc-nav-btn.next { margin-left: 0; }
+    }
+
+    @media (max-width: 480px) {
+      .content { padding: 20px 14px 60px; }
+    }
+
+    /* Tabla responsive */
+    @media (max-width: 600px) {
+      .data-table { font-size: .85rem; }
+      .data-table th, .data-table td { padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+<a href="#main-content" class="skip">Ir al contenido</a>
+
+<!-- ══ TOPBAR ══ -->
+<header class="topbar" role="banner">
+  <button class="sidebar-toggle" aria-label="Abrir índice" aria-expanded="false" aria-controls="sidebar" onclick="toggleSidebar(this)">☰</button>
+  <a href="#" class="topbar-brand" onclick="showSection('intro', event)">
+    ⚡ Guía de trámite
+    <span>Tarifa de Movilidad Eléctrica</span>
+  </a>
+  <div class="topbar-sep"></div>
+  <span class="topbar-epec">EPEC · Res. ERSeP 44/2019</span>
+</header>
+
+<!-- Overlay para cerrar sidebar en móvil -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<div class="layout">
+
+  <!-- ══ SIDEBAR ══ -->
+  <nav id="sidebar" class="sidebar" role="navigation" aria-label="Índice del instructivo">
+
+    <div class="sidebar-section-title">Introducción</div>
+    <a class="nav-item active" data-target="intro" href="#" onclick="showSection('intro',event)">
+      ¿De qué trata esta guía?
+    </a>
+
+    <div class="sidebar-section-title">Pasos del trámite</div>
+
+    <a class="nav-item" data-target="paso1" href="#" onclick="showSection('paso1',event)">
+      <span class="nav-step-num">1</span>Verificá si podés solicitar
+    </a>
+    <a class="nav-item sub" data-target="paso1-quien" href="#" onclick="showSection('paso1-quien',event)">Quién puede acceder</a>
+    <a class="nav-item sub" data-target="paso1-tipos" href="#" onclick="showSection('paso1-tipos',event)">Tipos de vehículo aceptados</a>
+
+    <a class="nav-item" data-target="paso2" href="#" onclick="showSection('paso2',event)">
+      <span class="nav-step-num">2</span>Reuní los documentos
+    </a>
+    <a class="nav-item sub" data-target="paso2-contrato" href="#" onclick="showSection('paso2-contrato',event)">Contrato y potencia</a>
+    <a class="nav-item sub" data-target="paso2-vehiculo" href="#" onclick="showSection('paso2-vehiculo',event)">Documentación del vehículo</a>
+    <a class="nav-item sub" data-target="paso2-vinculo" href="#" onclick="showSection('paso2-vinculo',event)">Vínculo familiar (si aplica)</a>
+
+    <a class="nav-item" data-target="paso3" href="#" onclick="showSection('paso3',event)">
+      <span class="nav-step-num">3</span>Certificado eléctrico apto
+    </a>
+    <a class="nav-item sub" data-target="paso3-que-es" href="#" onclick="showSection('paso3-que-es',event)">Qué es y quién lo emite</a>
+    <a class="nav-item sub" data-target="paso3-requisitos" href="#" onclick="showSection('paso3-requisitos',event)">Requisitos que debe cumplir</a>
+    <a class="nav-item sub" data-target="paso3-leyenda" href="#" onclick="showSection('paso3-leyenda',event)">La leyenda obligatoria</a>
+    <a class="nav-item sub" data-target="paso3-errores" href="#" onclick="showSection('paso3-errores',event)">Errores frecuentes</a>
+
+    <a class="nav-item" data-target="paso4" href="#" onclick="showSection('paso4',event)">
+      <span class="nav-step-num">4</span>Ingresá a la Oficina Virtual
+    </a>
+    <a class="nav-item sub" data-target="paso4-acceso" href="#" onclick="showSection('paso4-acceso',event)">Cómo acceder (Nivel 3)</a>
+    <a class="nav-item sub" data-target="paso4-carga" href="#" onclick="showSection('paso4-carga',event)">Cómo cargar los archivos</a>
+
+    <div class="sidebar-section-title">Referencia</div>
+    <a class="nav-item" data-target="ref-beneficios" href="#" onclick="showSection('ref-beneficios',event)">Beneficios de la tarifa</a>
+    <a class="nav-item" data-target="ref-faq" href="#" onclick="showSection('ref-faq',event)">Preguntas frecuentes</a>
+
+  </nav>
+
+  <!-- ══ CONTENIDO ══ -->
+  <main id="main-content" class="content" tabindex="-1">
+
+    <!-- ─────────── INTRO ─────────── -->
+    <article class="doc-section visible" id="sec-intro">
+      <div class="breadcrumb">Inicio</div>
+      <h1>¿De qué trata esta guía?</h1>
+      <p class="subtitle">Todo lo que necesitás saber para solicitar la Tarifa de Movilidad Eléctrica de EPEC, paso a paso.</p>
+
+      <p>Si tenés un <strong>vehículo eléctrico enchufable o híbrido enchufable</strong> y sos usuario de EPEC, podés solicitar una tarifa especial que te permite pagar menos energía al cargar tu auto en el horario nocturno.</p>
+
+      <h2>¿Qué vas a encontrar en esta guía?</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Verificar si podés solicitar</h3>
+            <p>Conocé los requisitos del contrato y del vehículo.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Reunir los documentos</h3>
+            <p>Lista completa de lo que necesitás escanear o fotografiar.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>Obtener el certificado eléctrico</h3>
+            <p>El documento más específico: qué tiene que decir exactamente para que sea aceptado.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3>Completar el trámite online</h3>
+            <p>Cómo ingresar a la Oficina Virtual y cargar todo correctamente.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <p><strong>Consejo antes de empezar</strong><br>
+        Leé esta guía completa antes de iniciar el trámite. El paso más crítico es el <strong>Certificado Eléctrico Apto</strong> (Paso 3): si no cumple los requisitos exactos, tu solicitud será rechazada.</p>
+      </div>
+
+      <div class="doc-nav">
+        <div></div>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso1',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Paso 1: Verificá si podés solicitar →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 1 ─────────── -->
+    <article class="doc-section" id="sec-paso1">
+      <div class="breadcrumb">Pasos del trámite <span>›</span> Paso 1</div>
+      <h1>Paso 1 · Verificá si podés solicitar</h1>
+      <p class="subtitle">Antes de juntar documentos, confirmá que tu situación cumple con los requisitos de EPEC.</p>
+
+      <h2>Requisitos del contrato eléctrico</h2>
+      <ul>
+        <li>Ser usuario activo de EPEC con <strong>servicio residencial o general/comercial</strong>.</li>
+        <li>La demanda máxima del contrato debe ser de <strong>hasta 40 kW</strong>.</li>
+        <li>El contrato debe estar <strong>a tu nombre</strong>. Si no lo está, primero debés cambiar la titularidad.</li>
+      </ul>
+
+      <div class="callout aviso">
+        <div class="callout-icon">⚠️</div>
+        <p><strong>El contrato no está a tu nombre</strong><br>
+        Si el servicio eléctrico de tu domicilio está a nombre de otra persona, primero debés solicitar el <em>Cambio de Titularidad</em> en la Oficina Virtual. Recién después podés pedir la tarifa.</p>
+      </div>
+
+      <h2>Requisitos del vehículo</h2>
+      <p>El vehículo tiene que estar <strong>inscripto en el DNRPA</strong> (Dirección Nacional de Registros de la Propiedad del Automotor).</p>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('intro',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Introducción</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso1-quien',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Quién puede acceder →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 1 – QUIÉN ─────────── -->
+    <article class="doc-section" id="sec-paso1-quien">
+      <div class="breadcrumb">Paso 1 <span>›</span> Quién puede acceder</div>
+      <h1>Quién puede acceder</h1>
+      <p class="subtitle">Resumen de los perfiles de usuario que pueden solicitar la tarifa.</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Condición</th>
+            <th>¿Puede solicitar?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Contrato residencial a mi nombre, auto eléctrico inscripto en DNRPA</td>
+            <td>✅ Sí</td>
+          </tr>
+          <tr>
+            <td>Contrato comercial/general a mi nombre, demanda ≤ 40 kW</td>
+            <td>✅ Sí</td>
+          </tr>
+          <tr>
+            <td>El contrato está a nombre de otra persona</td>
+            <td>❌ No, primero cambiar titularidad</td>
+          </tr>
+          <tr>
+            <td>No tengo servicio eléctrico aún</td>
+            <td>❌ No, primero solicitar el servicio</td>
+          </tr>
+          <tr>
+            <td>El contrato es de una empresa/persona jurídica</td>
+            <td>⚠️ Sí, pero primero tramitar Representación y Autorizaciones</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso1',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Paso 1</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso1-tipos',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Tipos de vehículo →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 1 – TIPOS ─────────── -->
+    <article class="doc-section" id="sec-paso1-tipos">
+      <div class="breadcrumb">Paso 1 <span>›</span> Tipos de vehículo</div>
+      <h1>Tipos de vehículo aceptados</h1>
+      <p class="subtitle">No todos los vehículos "ecológicos" califican. Revisá cuáles aplican.</p>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>Tipo de vehículo</th><th>¿Aplica?</th><th>Detalle</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🔌 Eléctrico de fábrica (BEV)</td>
+            <td>✅ Sí</td>
+            <td>Funciona 100% con batería eléctrica</td>
+          </tr>
+          <tr>
+            <td>🔋 Híbrido enchufable (PHEV)</td>
+            <td>✅ Sí</td>
+            <td>Tiene motor eléctrico que se carga desde la red</td>
+          </tr>
+          <tr>
+            <td>🔧 Retrofit (conversión a eléctrico)</td>
+            <td>✅ Sí</td>
+            <td>Vehículo original convertido a eléctrico, debe estar inscripto en DNRPA</td>
+          </tr>
+          <tr>
+            <td>⛽ Híbrido no enchufable (HEV)</td>
+            <td>❌ No</td>
+            <td>No se carga desde la red eléctrica domiciliaria</td>
+          </tr>
+          <tr>
+            <td>🚗 Naftero, GNC, diesel</td>
+            <td>❌ No</td>
+            <td>No corresponde</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout aviso">
+        <div class="callout-icon">⚠️</div>
+        <p>El vehículo debe estar <strong>registrado en Argentina</strong> en el DNRPA. Podés verificar la radicación en <strong>dnrpa.gov.ar</strong>.</p>
+      </div>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso1-quien',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Quién puede acceder</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso2',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Paso 2: Documentos →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 2 ─────────── -->
+    <article class="doc-section" id="sec-paso2">
+      <div class="breadcrumb">Pasos del trámite <span>›</span> Paso 2</div>
+      <h1>Paso 2 · Reuní los documentos</h1>
+      <p class="subtitle">Lista completa de todo lo que vas a necesitar antes de iniciar el trámite online.</p>
+
+      <p>El trámite se hace íntegramente online. Cada documento se carga como archivo digital. Podés usar el celular para fotografiarlos.</p>
+
+      <h2>Documentos obligatorios para todos</h2>
+      <ul class="checklist">
+        <li>
+          <div class="ci">📋</div>
+          <div class="ct">
+            <strong>Número de contrato de EPEC <span class="badge req">Obligatorio</span></strong>
+            <small>Lo encontrás en tu factura de luz, arriba a la derecha. Es un número de varios dígitos.</small>
+          </div>
+        </li>
+        <li>
+          <div class="ci">⚡</div>
+          <div class="ct">
+            <strong>Potencia total requerida <span class="badge req">Obligatorio</span></strong>
+            <small>Sumá la potencia del cargador del auto + el consumo actual de tu casa. Ver detalle en "Contrato y potencia".</small>
+          </div>
+        </li>
+        <li>
+          <div class="ci">🏠</div>
+          <div class="ct">
+            <strong>Certificado de Instalación Eléctrica Apta <span class="badge req">Obligatorio</span></strong>
+            <small>Emitido por un electricista habilitado. Tiene requisitos muy específicos. Ver Paso 3.</small>
+          </div>
+        </li>
+        <li>
+          <div class="ci">🚗</div>
+          <div class="ct">
+            <strong>Documentación del vehículo <span class="badge req">Obligatorio</span></strong>
+            <small>Tarjeta verde, título del automotor o constancia DNRPA. Ver detalle en "Documentación del vehículo".</small>
+          </div>
+        </li>
+      </ul>
+
+      <h2>Documentos según tu situación</h2>
+      <ul class="checklist">
+        <li>
+          <div class="ci">👤</div>
+          <div class="ct">
+            <strong>Documentación de vínculo familiar <span class="badge cond">Solo si el auto no está a tu nombre</span></strong>
+            <small>Libreta de familia, acta de nacimiento, unión convivencial, o DNI del titular del vehículo. Ver "Vínculo familiar".</small>
+          </div>
+        </li>
+        <li>
+          <div class="ci">📐</div>
+          <div class="ct">
+            <strong>Planilla de carga calculada <span class="badge cond">Solo si la potencia supera 12 kW</span></strong>
+            <small>Debe ser confeccionada por un instalador electricista habilitado.</small>
+          </div>
+        </li>
+      </ul>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso1-tipos',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Tipos de vehículo</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso2-contrato',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Contrato y potencia →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 2 – CONTRATO ─────────── -->
+    <article class="doc-section" id="sec-paso2-contrato">
+      <div class="breadcrumb">Paso 2 <span>›</span> Contrato y potencia</div>
+      <h1>Contrato y potencia</h1>
+      <p class="subtitle">Dos datos que vas a tener que ingresar en el formulario online.</p>
+
+      <h2>Número de contrato</h2>
+      <p>Es el identificador de tu suministro eléctrico en EPEC. Está impreso en tu <strong>factura de luz</strong>.</p>
+
+      <div class="doc-example">
+        <div class="doc-example-header">
+          <div class="dot verde"></div><div class="dot amarillo"></div><div class="dot rojo"></div>
+          Ejemplo – Factura EPEC (dónde encontrarlo)
+        </div>
+        <div class="doc-example-body">
+          <div class="field">
+            <span class="label">Número de contrato</span>
+            <span class="value ok">Ej: 12345678 · aparece en el encabezado de la factura</span>
+          </div>
+          <div class="highlight-box">
+            💡 Si no tenés la factura a mano, podés consultar el número iniciando sesión en la Oficina Virtual de EPEC.
+          </div>
+        </div>
+      </div>
+
+      <h2>Potencia total requerida</h2>
+      <p>Debés informar la suma de:</p>
+      <ul>
+        <li><strong>Potencia del cargador del vehículo</strong> (está en el manual o en la etiqueta del cargador)</li>
+        <li><strong>Demanda actual del domicilio</strong> (la encontrás en tu factura o la puede indicar un electricista)</li>
+      </ul>
+
+      <div class="doc-example">
+        <div class="doc-example-header">
+          <div class="dot verde"></div><div class="dot amarillo"></div><div class="dot rojo"></div>
+          Ejemplo de cálculo
+        </div>
+        <div class="doc-example-body">
+          <div class="field">
+            <span class="label">Demanda actual del domicilio</span>
+            <span class="value">5 kW</span>
+          </div>
+          <div class="field">
+            <span class="label">Potencia del cargador del auto</span>
+            <span class="value">7 kW</span>
+          </div>
+          <div class="field">
+            <span class="label">Potencia total a declarar</span>
+            <span class="value ok">12 kW (5 + 7)</span>
+          </div>
+          <div class="highlight-box">
+            ⚠️ Si el resultado supera los <strong>12 kW</strong>, también deberás presentar una planilla de carga calculada por un electricista habilitado.
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso2',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Lista de documentos</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso2-vehiculo',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Documentación del vehículo →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 2 – VEHÍCULO ─────────── -->
+    <article class="doc-section" id="sec-paso2-vehiculo">
+      <div class="breadcrumb">Paso 2 <span>›</span> Documentación del vehículo</div>
+      <h1>Documentación del vehículo</h1>
+      <p class="subtitle">Podés presentar cualquiera de estas tres opciones. Elegí la que tengas más a mano.</p>
+
+      <h2>Opción A · Tarjeta verde</h2>
+      <p>La tarjeta verde es el documento de identificación del vehículo que emite el DNRPA.</p>
+
+      <div class="doc-example">
+        <div class="doc-example-header">
+          <div class="dot verde"></div><div class="dot amarillo"></div><div class="dot rojo"></div>
+          Cómo fotografiarla correctamente
+        </div>
+        <div class="doc-example-body">
+          <div class="field"><span class="label">¿Qué lado?</span><span class="value">El frente (lado con los datos del titular y el dominio)</span></div>
+          <div class="field"><span class="label">Iluminación</span><span class="value ok">✅ Buena luz natural, sin reflejo</span></div>
+          <div class="field"><span class="label">Encuadre</span><span class="value ok">✅ El documento completo, sin partes cortadas</span></div>
+          <div class="field"><span class="label">Calidad</span><span class="value ok">✅ Texto legible, no borroso</span></div>
+          <div class="highlight-box malo">
+            ❌ No se aceptan fotos borrosas, con partes tapadas, o con el texto ilegible.
+          </div>
+        </div>
+      </div>
+
+      <h2>Opción B · Título del automotor</h2>
+      <p>Fotografiá o escaneá la primera página donde figura el titular y el dominio del vehículo.</p>
+
+      <h2>Opción C · Constancia DNRPA</h2>
+      <p>Podés obtener una constancia de radicación del vehículo desde el sitio oficial del DNRPA y hacer una captura de pantalla o descargarlo como PDF.</p>
+
+      <div class="callout tip">
+        <div class="callout-icon">📱</div>
+        <p><strong>Desde el celular es suficiente</strong><br>
+        No necesitás un escáner. Una foto clara tomada con el celular en formato JPG es aceptada. Asegurate de que el texto sea legible antes de cargarla.</p>
+      </div>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso2-contrato',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Contrato y potencia</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso2-vinculo',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Vínculo familiar →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 2 – VÍNCULO ─────────── -->
+    <article class="doc-section" id="sec-paso2-vinculo">
+      <div class="breadcrumb">Paso 2 <span>›</span> Vínculo familiar</div>
+      <h1>Vínculo familiar</h1>
+      <p class="subtitle">Solo necesitás esto si el vehículo está registrado a nombre de otra persona.</p>
+
+      <div class="callout ok">
+        <div class="callout-icon">✅</div>
+        <p>Si el vehículo está a <strong>tu nombre</strong>, podés saltear esta sección.</p>
+      </div>
+
+      <h2>Si el auto está a nombre de un familiar</h2>
+      <p>Debés presentar uno de estos documentos que acredite el vínculo:</p>
+      <ul>
+        <li>Libreta de familia</li>
+        <li>Acta de nacimiento</li>
+        <li>Constancia de unión convivencial</li>
+      </ul>
+
+      <h2>Alternativa: DNI con mismo domicilio</h2>
+      <p>Si el titular del vehículo tiene el <strong>mismo domicilio que el servicio eléctrico</strong> registrado en su DNI, podés presentar:</p>
+      <ul>
+        <li>Foto del <strong>frente del DNI</strong> del titular del vehículo</li>
+        <li>Foto del <strong>dorso del DNI</strong> del titular del vehículo</li>
+      </ul>
+
+      <div class="doc-example">
+        <div class="doc-example-header">
+          <div class="dot verde"></div><div class="dot amarillo"></div><div class="dot rojo"></div>
+          Qué tiene que coincidir
+        </div>
+        <div class="doc-example-body">
+          <div class="field">
+            <span class="label">Domicilio en el DNI del titular del vehículo</span>
+            <span class="value ok">San Martín 123, Córdoba</span>
+          </div>
+          <div class="field">
+            <span class="label">Domicilio del servicio eléctrico (contrato EPEC)</span>
+            <span class="value ok">San Martín 123, Córdoba ✅ Coinciden</span>
+          </div>
+          <div class="highlight-box malo">
+            ❌ Si los domicilios no coinciden, debés presentar el documento de vínculo familiar.
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso2-vehiculo',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Documentación del vehículo</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso3',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Paso 3: Certificado eléctrico →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 3 ─────────── -->
+    <article class="doc-section" id="sec-paso3">
+      <div class="breadcrumb">Pasos del trámite <span>›</span> Paso 3</div>
+      <h1>Paso 3 · Certificado eléctrico apto</h1>
+      <p class="subtitle">El documento más importante y específico del trámite. Leé bien antes de pedírselo a tu electricista.</p>
+
+      <div class="callout alerta">
+        <div class="callout-icon">🚨</div>
+        <p><strong>Este es el paso donde más solicitudes son rechazadas.</strong><br>
+        El certificado debe cumplir requisitos muy concretos de redacción y tipo de instalación. Si no los cumple, el trámite se rechaza y hay que empezar de nuevo.</p>
+      </div>
+
+      <p>Navegá los subitems de la izquierda para ver cada requisito en detalle:</p>
+      <ul>
+        <li><a href="#" onclick="showSection('paso3-que-es',event)">¿Qué es el certificado y quién lo emite?</a></li>
+        <li><a href="#" onclick="showSection('paso3-requisitos',event)">Requisitos que debe cumplir</a></li>
+        <li><a href="#" onclick="showSection('paso3-leyenda',event)">La leyenda obligatoria (texto exacto)</a></li>
+        <li><a href="#" onclick="showSection('paso3-errores',event)">Errores frecuentes que generan rechazo</a></li>
+      </ul>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso2-vinculo',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Vínculo familiar</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso3-que-es',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">¿Qué es el certificado? →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 3 – QUÉ ES ─────────── -->
+    <article class="doc-section" id="sec-paso3-que-es">
+      <div class="breadcrumb">Paso 3 <span>›</span> Qué es el certificado</div>
+      <h1>¿Qué es el Certificado Eléctrico Apto?</h1>
+      <p class="subtitle">Un documento oficial que certifica que tu instalación eléctrica es apta para cargar vehículos eléctricos.</p>
+
+      <h2>¿Quién lo emite?</h2>
+      <p>Lo emite un <strong>instalador electricista habilitado</strong>, inscripto ante el ERSeP (Ente Regulador de Servicios Públicos de Córdoba).</p>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <p><strong>Mostrále esta guía a tu electricista</strong><br>
+        Cuando contrates al electricista, compartile esta sección del instructivo. Así el certificado queda bien desde la primera vez y evitás demoras.</p>
+      </div>
+
+      <h2>¿Para qué sirve en este trámite?</h2>
+      <p>EPEC exige el certificado para verificar que:</p>
+      <ul>
+        <li>La instalación del domicilio es apta para la carga de vehículos eléctricos.</li>
+        <li>Cumple con la reglamentación AEA 90364, parte 7 sección 722.</li>
+        <li>El punto de conexión y medición está correctamente instalado.</li>
+      </ul>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso3',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Paso 3</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso3-requisitos',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Requisitos del certificado →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 3 – REQUISITOS ─────────── -->
+    <article class="doc-section" id="sec-paso3-requisitos">
+      <div class="breadcrumb">Paso 3 <span>›</span> Requisitos</div>
+      <h1>Requisitos que debe cumplir el certificado</h1>
+      <p class="subtitle">Cuatro puntos que el certificado tiene que tener sí o sí para ser aceptado por EPEC.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">A</div>
+          <div class="step-body">
+            <h3>El domicilio debe coincidir</h3>
+            <p>La dirección en el certificado tiene que ser <strong>exactamente la misma</strong> que la del contrato de EPEC al que querés aplicar la tarifa.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">B</div>
+          <div class="step-body">
+            <h3>Tipo de instalación: ambas opciones marcadas</h3>
+            <p>En el campo <em>"Tipo de instalación certificada"</em>, deben estar seleccionadas <strong>las dos opciones siguientes</strong> (ninguna sola alcanza):</p>
+            <ul style="margin-top:8px;">
+              <li><strong>MODIFICACIÓN DE INSTALACIÓN EXISTENTE</strong></li>
+              <li><strong>PUNTO DE CONEXIÓN Y MEDICIÓN E INSTALACIÓN DEL USUARIO</strong></li>
+            </ul>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">C</div>
+          <div class="step-body">
+            <h3>Leyenda en la Memoria Descriptiva</h3>
+            <p>En la sección <em>"Descripción de la instalación certificada (Memoria descriptiva)"</em> debe figurar la leyenda exacta. Ver el <a href="#" onclick="showSection('paso3-leyenda',event)">texto exacto requerido →</a></p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">D</div>
+          <div class="step-body">
+            <h3>La leyenda NO puede estar en "Observaciones"</h3>
+            <p>Si el electricista pone la leyenda en la sección <em>"Observaciones"</em> en lugar de en la Memoria Descriptiva, el certificado <strong>será rechazado</strong>. Ver <a href="#" onclick="showSection('paso3-errores',event)">errores frecuentes →</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso3-que-es',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← ¿Qué es el certificado?</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso3-leyenda',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">La leyenda obligatoria →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 3 – LEYENDA ─────────── -->
+    <article class="doc-section" id="sec-paso3-leyenda">
+      <div class="breadcrumb">Paso 3 <span>›</span> La leyenda obligatoria</div>
+      <h1>La leyenda obligatoria</h1>
+      <p class="subtitle">El texto exacto que debe aparecer en la sección "Memoria Descriptiva" del certificado.</p>
+
+      <p>Esta leyenda es requerida por EPEC para validar el certificado. Tiene que estar escrita en la sección correcta y con esta redacción:</p>
+
+      <div class="code-label">Texto exacto a incluir en la Memoria Descriptiva</div>
+      <div class="code-block">
+        "La instalación CORRESPONDE Suministro a Vehículos Eléctricos<br>
+        bajo la reglamentación AEA 90364, parte 7 sección 722"
+      </div>
+
+      <div class="callout aviso">
+        <div class="callout-icon">⚠️</div>
+        <p><strong>¿En qué sección va?</strong><br>
+        Esta leyenda debe estar en la sección <em>"Descripción de la instalación certificada (Memoria descriptiva)"</em>. <strong>No en "Observaciones".</strong> Si está en el lugar equivocado, el trámite será rechazado.</p>
+      </div>
+
+      <h2>Dónde aparece en el formulario del certificado</h2>
+      <div class="doc-example">
+        <div class="doc-example-header">
+          <div class="dot verde"></div><div class="dot amarillo"></div><div class="dot rojo"></div>
+          Certificado – Ejemplo correcto ✅
+        </div>
+        <div class="doc-example-body">
+          <div class="field">
+            <span class="label">Sección: Descripción de la instalación certificada (Memoria descriptiva)</span>
+            <span class="value ok">"La instalación CORRESPONDE Suministro a Vehículos Eléctricos bajo la reglamentación AEA 90364, parte 7 sección 722"</span>
+          </div>
+          <div class="field">
+            <span class="label">Sección: Observaciones</span>
+            <span class="value">— (vacío o con otra información no relacionada)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-example">
+        <div class="doc-example-header">
+          <div class="dot rojo"></div><div class="dot rojo"></div><div class="dot rojo"></div>
+          Ejemplo incorrecto ❌ (genera rechazo)
+        </div>
+        <div class="doc-example-body">
+          <div class="field">
+            <span class="label">Sección: Descripción de la instalación certificada (Memoria descriptiva)</span>
+            <span class="value error">— (vacío, sin la leyenda)</span>
+          </div>
+          <div class="field">
+            <span class="label">Sección: Observaciones</span>
+            <span class="value error">"La instalación CORRESPONDE Suministro a Vehículos Eléctricos bajo la reglamentación AEA 90364, parte 7 sección 722" ❌</span>
+          </div>
+          <div class="highlight-box malo">
+            ❌ EPEC no puede validar leyendas en la sección "Observaciones". Este certificado será rechazado.
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso3-requisitos',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Requisitos del certificado</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso3-errores',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Errores frecuentes →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 3 – ERRORES ─────────── -->
+    <article class="doc-section" id="sec-paso3-errores">
+      <div class="breadcrumb">Paso 3 <span>›</span> Errores frecuentes</div>
+      <h1>Errores frecuentes en el certificado</h1>
+      <p class="subtitle">Estas son las causas más comunes de rechazo del trámite. Verificalas antes de enviar.</p>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>Error</th><th>Consecuencia</th><th>Cómo evitarlo</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>La leyenda obligatoria está en "Observaciones" en lugar de en la Memoria Descriptiva</td>
+            <td>Rechazo automático</td>
+            <td>Pedile al electricista que la mueva a la sección correcta</td>
+          </tr>
+          <tr>
+            <td>Solo está marcada una de las dos opciones de "Tipo de instalación"</td>
+            <td>Rechazo</td>
+            <td>Verificar que ambas estén tildadas antes de firmar</td>
+          </tr>
+          <tr>
+            <td>El domicilio del certificado no coincide con el del contrato</td>
+            <td>Rechazo</td>
+            <td>Dar al electricista la dirección exacta del contrato EPEC</td>
+          </tr>
+          <tr>
+            <td>La potencia declarada en el certificado es distinta a la informada en el portal</td>
+            <td>Rechazo</td>
+            <td>Coordinar el dato de potencia entre el electricista y lo que se cargará en el portal</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout ok">
+        <div class="callout-icon">✅</div>
+        <p><strong>Verificá el certificado en el sistema del ERSeP</strong><br>
+        Podés confirmar que el certificado emitido es válido ingresando el código único en el portal de verificación del ERSeP: <strong>ersepseguelec.cba.gov.ar</strong></p>
+      </div>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso3-leyenda',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← La leyenda obligatoria</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso4',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Paso 4: Oficina Virtual →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 4 ─────────── -->
+    <article class="doc-section" id="sec-paso4">
+      <div class="breadcrumb">Pasos del trámite <span>›</span> Paso 4</div>
+      <h1>Paso 4 · Ingresá a la Oficina Virtual</h1>
+      <p class="subtitle">El trámite se realiza 100% online. Necesitás acceso con identidad validada.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Accedé a la Oficina Virtual de EPEC (Nivel 3)</h3>
+            <p>Ingresá a través de <strong>Ciudadano Digital (CiDi)</strong> o <strong>Clave Fiscal de ARCA</strong>. Necesitás Nivel 3 (identidad validada).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Buscá el trámite</h3>
+            <p>Dentro de la Oficina Virtual, buscá: <strong>"Solicitud de Tarifa de Movilidad Eléctrica"</strong>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>Completá el formulario</h3>
+            <p>Ingresá el número de contrato y la potencia total requerida. Luego adjuntá los documentos.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3>Enviá la solicitud</h3>
+            <p>Revisá todo antes de confirmar. Una vez enviado, EPEC analizará la documentación y te notificará el resultado.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso3-errores',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Errores frecuentes</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso4-acceso',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Cómo acceder (Nivel 3) →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 4 – ACCESO ─────────── -->
+    <article class="doc-section" id="sec-paso4-acceso">
+      <div class="breadcrumb">Paso 4 <span>›</span> Acceso Nivel 3</div>
+      <h1>Cómo acceder con Nivel 3</h1>
+      <p class="subtitle">El trámite requiere identidad validada (Nivel 3). Hay dos formas de hacerlo.</p>
+
+      <h2>Opción 1 · Ciudadano Digital (CiDi)</h2>
+      <p>CiDi es la plataforma del Gobierno de Córdoba para trámites digitales. Para tener el Nivel 3 necesitás haber validado tu identidad de forma presencial o mediante la app.</p>
+      <ul>
+        <li>Descargá la app <strong>Mi Argentina</strong> o ingresá desde un navegador.</li>
+        <li>Si ya tenés cuenta pero solo en Nivel 1 o 2, debés validar tu identidad para subir a Nivel 3.</li>
+      </ul>
+
+      <h2>Opción 2 · Clave Fiscal ARCA</h2>
+      <p>Si ya tenés Clave Fiscal (antes AFIP) con nivel de seguridad suficiente, podés usarla para acceder a la Oficina Virtual de EPEC.</p>
+
+      <div class="callout aviso">
+        <div class="callout-icon">ℹ️</div>
+        <p>Si tenés dudas sobre cómo subir tu nivel de acceso, consultá directamente en las oficinas de EPEC o en el portal de Ciudadano Digital del Gobierno de Córdoba.</p>
+      </div>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso4',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Paso 4</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('paso4-carga',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Cómo cargar los archivos →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── PASO 4 – CARGA ─────────── -->
+    <article class="doc-section" id="sec-paso4-carga">
+      <div class="breadcrumb">Paso 4 <span>›</span> Cargar archivos</div>
+      <h1>Cómo cargar los archivos</h1>
+      <p class="subtitle">Consejos para que la carga de documentos sea rápida y sin errores.</p>
+
+      <h2>Formatos aceptados</h2>
+      <table class="data-table">
+        <thead><tr><th>Documento</th><th>Formatos válidos</th></tr></thead>
+        <tbody>
+          <tr><td>Certificado eléctrico</td><td>PDF, JPG</td></tr>
+          <tr><td>Tarjeta verde / Título del vehículo</td><td>PDF, JPG</td></tr>
+          <tr><td>DNI (frente y dorso)</td><td>JPG, PDF</td></tr>
+          <tr><td>Constancia DNRPA</td><td>PDF, JPG</td></tr>
+          <tr><td>Vínculo familiar</td><td>PDF, JPG, WORD</td></tr>
+          <tr><td>Planilla de carga (si aplica)</td><td>PDF, WORD</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Recomendaciones</h2>
+      <ul>
+        <li>Nombrá cada archivo de forma descriptiva antes de subirlo. Ej: <em>certificado-electrico.pdf</em>, <em>tarjeta-verde.jpg</em>.</li>
+        <li>Verificá que el archivo se abra correctamente antes de cargarlo.</li>
+        <li>Si subís fotos tomadas con el celular, asegurate de que el texto sea legible.</li>
+        <li>No subas varios documentos en un solo archivo: cargá cada uno por separado.</li>
+      </ul>
+
+      <div class="callout ok">
+        <div class="callout-icon">✅</div>
+        <p><strong>Todo listo para enviar</strong><br>
+        Si completaste todos los pasos anteriores y tenés los archivos preparados, ya podés iniciar el trámite en la Oficina Virtual de EPEC en <a href="https://www.epec.com.ar" target="_blank" rel="noopener noreferrer">www.epec.com.ar</a>.</p>
+      </div>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso4-acceso',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Acceso Nivel 3</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('ref-beneficios',event)">
+          <span class="nav-dir">Referencia</span>
+          <span class="nav-label">Beneficios de la tarifa →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── REF – BENEFICIOS ─────────── -->
+    <article class="doc-section" id="sec-ref-beneficios">
+      <div class="breadcrumb">Referencia</div>
+      <h1>Beneficios de la tarifa</h1>
+      <p class="subtitle">Resumen técnico del beneficio económico que otorga la tarifa.</p>
+
+      <h2>¿Cuánto ahorrás?</h2>
+      <p>Con esta tarifa se aplica un <strong>50% de descuento sobre el Valor Agregado de Distribución (VAD)</strong> en el horario nocturno (23:00 a 05:00 hs). Esto se traduce en una reducción de <strong>aproximadamente el 30% del costo de la energía</strong> consumida en ese horario.</p>
+
+      <h2>Cupo de energía con tarifa reducida</h2>
+      <table class="data-table">
+        <thead><tr><th>Tipo de usuario</th><th>Cupo mensual</th><th>Horario</th></tr></thead>
+        <tbody>
+          <tr><td>Residencial</td><td>400 kWh</td><td>23:00 a 05:00 hs</td></tr>
+          <tr><td>General / de servicios (comercial)</td><td>1.500 kWh</td><td>23:00 a 05:00 hs</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <p>Conectar el auto después de las 23:00 y programar la carga para que termine antes de las 05:00 es la forma de aprovechar al máximo la tarifa nocturna.</p>
+      </div>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('paso4-carga',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Cargar archivos</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('ref-faq',event)">
+          <span class="nav-dir">Siguiente</span>
+          <span class="nav-label">Preguntas frecuentes →</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- ─────────── REF – FAQ ─────────── -->
+    <article class="doc-section" id="sec-ref-faq">
+      <div class="breadcrumb">Referencia</div>
+      <h1>Preguntas frecuentes</h1>
+      <p class="subtitle">Respuestas a las dudas más comunes.</p>
+
+      <h3>¿Puedo solicitar la tarifa si el servicio está a nombre de mi cónyuge?</h3>
+      <p>No directamente. El contrato debe estar a <strong>tu nombre</strong>. Primero debés cambiar la titularidad del servicio a tu nombre, y luego solicitar la tarifa.</p>
+
+      <h3>¿El auto tiene que estar a mi nombre?</h3>
+      <p>No necesariamente. Si el auto está a nombre de un familiar, podés presentar documentación de vínculo (libreta de familia, acta, etc.) o el DNI del titular si el domicilio coincide. Ver <a href="#" onclick="showSection('paso2-vinculo',event)">Vínculo familiar</a>.</p>
+
+      <h3>¿Qué pasa si mi solicitud es rechazada?</h3>
+      <p>EPEC te notificará el motivo. Podés corregir la documentación y <strong>reiterarla</strong> con los cambios requeridos. No se pierde el trámite, se vuelve a presentar.</p>
+
+      <h3>¿Cuánto tarda en aprobarse?</h3>
+      <p>El tiempo varía. EPEC revisará la documentación y te notificará el estado por la Oficina Virtual.</p>
+
+      <h3>¿Qué pasa si la potencia requerida supera los 40 kW?</h3>
+      <p>La tarifa solo aplica para contratos con demanda de <strong>hasta 40 kW</strong>. Si superás ese valor, no podés acceder a esta tarifa.</p>
+
+      <h3>¿Sirve cualquier auto híbrido?</h3>
+      <p>No. Solo los <strong>híbridos enchufables (PHEV)</strong>. Los híbridos que no se enchufan a la red (HEV, como algunos Toyota Corolla o Yaris híbridos) no aplican.</p>
+
+      <div class="doc-nav">
+        <a class="doc-nav-btn" href="#" onclick="showSection('ref-beneficios',event)">
+          <span class="nav-dir">Anterior</span>
+          <span class="nav-label">← Beneficios de la tarifa</span>
+        </a>
+        <a class="doc-nav-btn next" href="#" onclick="showSection('intro',event)">
+          <span class="nav-dir">Volver al inicio</span>
+          <span class="nav-label">↑ Inicio de la guía</span>
+        </a>
+      </div>
+    </article>
+
+  </main>
+</div>
+
+<script>
+  // ── Navegación entre secciones ──
+  function showSection(id, e) {
+    if (e) e.preventDefault();
+
+    // Ocultar todas
+    document.querySelectorAll('.doc-section').forEach(s => s.classList.remove('visible'));
+
+    // Mostrar la seleccionada
+    const sec = document.getElementById('sec-' + id);
+    if (sec) {
+      sec.classList.add('visible');
+      // Scroll al inicio del contenido
+      document.getElementById('main-content').scrollTop = 0;
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    // Actualizar sidebar activo
+    document.querySelectorAll('.nav-item').forEach(a => {
+      a.classList.toggle('active', a.dataset.target === id);
+    });
+
+    // Cerrar sidebar en móvil
+    closeSidebar();
+  }
+
+  // ── Sidebar móvil ──
+  function toggleSidebar(btn) {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const open = sidebar.classList.toggle('open');
+    overlay.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open);
+    btn.setAttribute('aria-label', open ? 'Cerrar índice' : 'Abrir índice');
+  }
+
+  function closeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const btn = document.querySelector('.sidebar-toggle');
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+    if (btn) {
+      btn.setAttribute('aria-expanded', false);
+      btn.setAttribute('aria-label', 'Abrir índice');
+    }
+  }
+</script>
+</body>
+</html>
