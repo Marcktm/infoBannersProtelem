@@ -269,8 +269,8 @@
     }
     .callout-icon { flex-shrink: 0; margin-top: 1px; font-size: 16px; }
     .callout p { margin: 0; text-align: left; }
-    .callout p > strong:first-child { display: block; margin-bottom: 4px; font-size: .93rem; }
     .callout strong { font-size: .93rem; }
+    .callout .ct { display: block; margin-bottom: 4px; font-size: .93rem; font-weight: 700; }
     .callout.aviso  { background: var(--amarillo-bg); border-color: var(--amarillo-borde); border-top: 1px solid var(--amarillo-borde); border-right: 1px solid var(--amarillo-borde); border-bottom: 1px solid var(--amarillo-borde); }
     .callout.alerta { background: var(--rojo-bg);     border-color: var(--rojo-borde);    border-top: 1px solid var(--rojo-borde);    border-right: 1px solid var(--rojo-borde);    border-bottom: 1px solid var(--rojo-borde);    }
     .callout.tip    { background: var(--azul-bg);     border-color: var(--azul-borde);    border-top: 1px solid var(--azul-borde);    border-right: 1px solid var(--azul-borde);    border-bottom: 1px solid var(--azul-borde);    }
@@ -313,7 +313,7 @@
     .checklist li:hover { border-color: var(--verde-borde); }
     .checklist li .ci { color: var(--verde-medio); margin-top: 1px; font-size: 18px; }
     .checklist li .ct strong { display: block; margin-bottom: 2px; font-size: .92rem; }
-    .checklist li .ct small  { color: var(--texto-suave); font-size: .83rem; line-height: 1.5; display: block; text-align: justify; }
+    .checklist li .ct small  { color: var(--texto-suave); font-size: .83rem; line-height: 1.5; display: block; text-align: left; }
 
     .badge {
       display: inline-block; font-size: .68rem; font-weight: 700;
@@ -582,7 +582,7 @@
 
       <div class="callout tip">
         <iconify-icon icon="lucide:lightbulb" width="16" class="callout-icon" style="color:#3b82f6"></iconify-icon>
-        <p><strong>Consejo antes de empezar</strong>
+        <p><strong class="ct">Consejo antes de empezar</strong>
         Leé esta guía completa antes de iniciar el trámite. El paso más crítico es el <strong>Certificado Eléctrico Apto</strong> (Paso 3): si no cumple los requisitos exactos, la solicitud será rechazada.</p>
       </div>
 
@@ -613,7 +613,7 @@
 
       <div class="callout aviso">
         <iconify-icon icon="lucide:alert-triangle" width="16" class="callout-icon" style="color:#b45309"></iconify-icon>
-        <p><strong>El contrato no está a tu nombre</strong>
+        <p><strong class="ct">El contrato no está a tu nombre</strong>
         Si el servicio eléctrico está a nombre de otra persona, primero debés solicitar el <em>Cambio de Titularidad</em> en la Oficina Virtual. Recién después podés pedir la tarifa.</p>
       </div>
 
@@ -903,7 +903,7 @@
 
       <div class="callout tip">
         <iconify-icon icon="lucide:smartphone" width="16" class="callout-icon" style="color:#3b82f6"></iconify-icon>
-        <p><strong>Desde el celular es suficiente</strong>
+        <p><strong class="ct">Desde el celular es suficiente</strong>
         No necesitás escáner. Una foto clara tomada con el celular en formato JPG es aceptada. Verificá que el texto sea legible antes de cargarla.</p>
       </div>
 
@@ -988,7 +988,7 @@
 
       <div class="callout alerta">
         <iconify-icon icon="lucide:alert-octagon" width="16" class="callout-icon" style="color:#dc2626"></iconify-icon>
-        <p><strong>El paso donde más solicitudes son rechazadas</strong>
+        <p><strong class="ct">El paso donde más solicitudes son rechazadas</strong>
         El certificado debe cumplir requisitos muy concretos de redacción y tipo de instalación. Si no los cumple, el trámite se rechaza y hay que comenzar de nuevo.</p>
       </div>
 
@@ -1038,13 +1038,13 @@
 
       <div class="callout aviso">
         <iconify-icon icon="lucide:alert-triangle" width="16" class="callout-icon" style="color:#b45309"></iconify-icon>
-        <p><strong>Revisá bien todos los datos antes de firmar</strong>
+        <p><strong class="ct">Revisá bien todos los datos antes de firmar</strong>
         Te recomendamos verificar cada campo del certificado junto con tu electricista <em>antes</em> de firmarlo. Una vez emitido, si hay algún error deberán tramitarlo de nuevo desde cero. Vale la pena tomarse unos minutos para revisarlo con calma.</p>
       </div>
 
       <div class="callout tip">
         <iconify-icon icon="lucide:lightbulb" width="16" class="callout-icon" style="color:#3b82f6"></iconify-icon>
-        <p><strong>Compartí esta guía con tu electricista</strong>
+        <p><strong class="ct">Compartí esta guía con tu electricista</strong>
         Cuando lo contrates, mostrále esta sección del instructivo. Así el certificado queda bien desde la primera vez y evitás demoras innecesarias.</p>
       </div>
 
@@ -1135,7 +1135,7 @@
 
       <div class="callout aviso">
         <iconify-icon icon="lucide:alert-triangle" width="16" class="callout-icon" style="color:#b45309"></iconify-icon>
-        <p><strong>¿En qué sección va?</strong>
+        <p><strong class="ct">¿En qué sección va?</strong>
         Esta leyenda debe estar únicamente en la sección <em>"Descripción de la instalación certificada (Memoria descriptiva)"</em>. Si el electricista la coloca en <em>"Observaciones"</em>, el certificado será rechazado y deberá emitirse uno nuevo.</p>
       </div>
 
@@ -1237,13 +1237,13 @@
 
       <div class="callout alerta">
         <iconify-icon icon="lucide:ban" width="16" class="callout-icon" style="color:#dc2626"></iconify-icon>
-        <p><strong>El PDF del certificado no puede modificarse</strong>
+        <p><strong class="ct">El PDF del certificado no puede modificarse</strong>
         Cada certificado cuenta con un <strong>Código Único de Identificación</strong> que lo asocia permanentemente a los datos con los que fue emitido. Cualquier intento de editar el archivo invalida el documento y puede derivar en el rechazo del trámite. Si existe algún error, la única solución es solicitar al electricista la emisión de un nuevo certificado con los datos correctos.</p>
       </div>
 
       <div class="callout ok">
         <iconify-icon icon="lucide:shield-check" width="16" class="callout-icon" style="color:#16a34a"></iconify-icon>
-        <p><strong>Verificá la autenticidad del certificado</strong>
+        <p><strong class="ct">Verificá la autenticidad del certificado</strong>
         Podés confirmar que el certificado emitido es válido ingresando su código único en el portal de verificación del ERSeP: <strong>ersepseguelec.cba.gov.ar</strong></p>
       </div>
 
@@ -1381,7 +1381,7 @@
 
       <div class="callout ok">
         <iconify-icon icon="lucide:check-circle-2" width="16" class="callout-icon" style="color:#16a34a"></iconify-icon>
-        <p><strong>Todo listo para enviar</strong>
+        <p><strong class="ct">Todo listo para enviar</strong>
         Si completaste todos los pasos anteriores y tenés los archivos preparados, ya podés iniciar el trámite en la Oficina Virtual de EPEC en <a href="https://www.epec.com.ar" target="_blank" rel="noopener noreferrer">www.epec.com.ar</a>.</p>
       </div>
 
