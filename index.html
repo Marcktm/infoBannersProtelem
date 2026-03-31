@@ -350,7 +350,8 @@
       display: flex; gap: 8px; align-items: flex-start; text-align: left;
     }
     .doc-example-body .hbox.malo { background: var(--rojo-bg); border-color: var(--rojo-borde); }
-    .doc-example-body .hbox iconify-icon { margin-top: 1px; flex-shrink: 0; }
+    .doc-example-body .hbox iconify-icon { margin-top: 2px; flex-shrink: 0; }
+    .doc-example-body .hbox span { flex: 1; }
 
     /* ── Steps ── */
     .steps { margin: 18px 0; }
@@ -849,7 +850,7 @@
           </div>
           <div class="hbox">
             <iconify-icon icon="lucide:alert-triangle" width="14" style="color:#b45309;margin-top:1px"></iconify-icon>
-            Si el resultado supera los <strong>12 kW</strong>, también debés presentar una planilla de carga calculada por un electricista habilitado.
+            <span>Si el resultado supera los <strong>12 kW</strong>, también debés presentar una planilla de carga calculada por un electricista habilitado.</span>
           </div>
         </div>
       </div>
@@ -895,7 +896,7 @@
           <div class="field"><span class="lbl">Calidad</span><span class="val ok"><iconify-icon icon="lucide:check" width="13" style="margin-right:4px"></iconify-icon>Texto nítido y legible</span></div>
           <div class="hbox malo">
             <iconify-icon icon="lucide:x-circle" width="14" style="color:#dc2626;margin-top:1px"></iconify-icon>
-            No se aceptan fotos borrosas, con partes tapadas o con el texto ilegible.
+            <span>No se aceptan fotos borrosas, con partes tapadas o con el texto ilegible.</span>
           </div>
         </div>
       </div>
@@ -959,7 +960,7 @@
           </div>
           <div class="hbox malo">
             <iconify-icon icon="lucide:x-circle" width="14" style="color:#dc2626;margin-top:1px"></iconify-icon>
-            Si los domicilios no coinciden, debés presentar el documento de vínculo familiar.
+            <span>Si los domicilios no coinciden, debés presentar el documento de vínculo familiar.</span>
           </div>
         </div>
       </div>
@@ -1173,7 +1174,7 @@
           </div>
           <div class="hbox malo">
             <iconify-icon icon="lucide:ban" width="14" style="color:#dc2626;margin-top:1px"></iconify-icon>
-            EPEC no puede validar leyendas ubicadas en la sección "Observaciones". Este certificado será rechazado.
+            <span>EPEC no puede validar leyendas ubicadas en la sección "Observaciones". Este certificado será rechazado.</span>
           </div>
         </div>
       </div>
