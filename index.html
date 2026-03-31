@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Guía: Tarifa de Movilidad Eléctrica – EPEC · by PROTELEM</title>
+  <title>Guía: Tarifa de Movilidad Eléctrica – EPEC · Subgerencia de Relaciones con el Cliente</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -73,7 +73,7 @@
     ══════════════════════════════════════ */
     .topbar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      height: var(--topbar-h);
+      min-height: var(--topbar-h);
       background: var(--verde);
       display: flex; align-items: center; gap: 0;
       padding: 0 20px;
@@ -134,12 +134,13 @@
     ══════════════════════════════════════ */
     .disclaimer-bar {
       position: fixed; top: var(--topbar-h); left: 0; right: 0; z-index: 199;
-      height: var(--disclaimer-h);
+      min-height: var(--disclaimer-h);
       background: #fffbea;
       border-bottom: 1px solid #e6b800;
       display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 0 20px;
+      padding: 6px 20px;
       font-size: .72rem; color: #7a5c00; font-weight: 500;
+      text-align: center; flex-wrap: wrap; line-height: 1.5;
     }
     .disclaimer-bar iconify-icon { color: #b45309; font-size: 14px; }
 
@@ -267,8 +268,9 @@
       border-left-width: 3px; border-left-style: solid;
     }
     .callout-icon { flex-shrink: 0; margin-top: 1px; font-size: 16px; }
-    .callout p { margin: 0; text-align: justify; }
-    .callout strong { display: block; margin-bottom: 3px; font-size: .93rem; }
+    .callout p { margin: 0; text-align: left; }
+    .callout p > strong:first-child { display: block; margin-bottom: 4px; font-size: .93rem; }
+    .callout strong { font-size: .93rem; }
     .callout.aviso  { background: var(--amarillo-bg); border-color: var(--amarillo-borde); border-top: 1px solid var(--amarillo-borde); border-right: 1px solid var(--amarillo-borde); border-bottom: 1px solid var(--amarillo-borde); }
     .callout.alerta { background: var(--rojo-bg);     border-color: var(--rojo-borde);    border-top: 1px solid var(--rojo-borde);    border-right: 1px solid var(--rojo-borde);    border-bottom: 1px solid var(--rojo-borde);    }
     .callout.tip    { background: var(--azul-bg);     border-color: var(--azul-borde);    border-top: 1px solid var(--azul-borde);    border-right: 1px solid var(--azul-borde);    border-bottom: 1px solid var(--azul-borde);    }
@@ -345,7 +347,7 @@
     .doc-example-body .hbox {
       background: var(--verde-fondo); border: 1px solid var(--verde-borde);
       border-radius: var(--radio); padding: 10px 13px; margin-top: 10px; font-size: .85rem;
-      display: flex; gap: 8px; align-items: flex-start; text-align: justify;
+      display: flex; gap: 8px; align-items: flex-start; text-align: left;
     }
     .doc-example-body .hbox.malo { background: var(--rojo-bg); border-color: var(--rojo-borde); }
     .doc-example-body .hbox iconify-icon { margin-top: 1px; flex-shrink: 0; }
@@ -415,16 +417,22 @@
       .doc-nav-btn { max-width: 100%; }
       .doc-nav-btn.next { text-align: left; }
       .topbar-guide-sub { display: none; }
+      /* Topbar compacto: sin wrap, altura fija */
+      .topbar { flex-wrap: nowrap; height: var(--topbar-h); min-height: unset; }
+      /* Ocultar badge en móvil */
+      .protelem-badge { display: none; }
+      /* Disclaimer compacto: una sola línea */
+      .disclaimer-bar { flex-wrap: nowrap; height: var(--disclaimer-h); min-height: unset; padding: 0 14px; }
+      .disclaimer-full { display: none; }
+      .disclaimer-short { display: inline; }
+    }
+
+    @media (min-width: 821px) {
+      .disclaimer-short { display: none; }
     }
 
     @media (max-width: 520px) {
       .content { padding: 20px 14px 60px; }
-      .protelem-badge span { display: none; }
-      .protelem-badge { padding: 4px 8px; }
-    }
-
-    @media (max-width: 420px) {
-      .disclaimer-bar { font-size: .68rem; }
     }
 
     /* Alto contraste */
@@ -443,7 +451,7 @@
   </button>
 
   <a href="#" class="topbar-logo" onclick="showSection('intro',event)" aria-label="Inicio – Guía EPEC Movilidad Eléctrica">
-    <img src="img/epec-logo-png_seeklogo-48320.png" alt="EPEC" />
+    <img src="img/epec-seeklogo.png" alt="EPEC" />
   </a>
 
   <div class="topbar-divider" aria-hidden="true"></div>
@@ -455,16 +463,18 @@
 
   <div class="topbar-sep"></div>
 
-  <a href="#" class="protelem-badge" onclick="return false;" title="Guía elaborada por PROTELEM">
+  <a href="#" class="protelem-badge" onclick="return false;" title="Guía elaborada por la Subgerencia de Relaciones con el Cliente">
     <div class="protelem-dot" aria-hidden="true"></div>
-    <span>by PROTELEM</span>
+    <span class="badge-full">Subgerencia de Relaciones con el Cliente</span>
+    <span class="badge-short">Sg. Relaciones c/ el Cliente</span>
   </a>
 </header>
 
 <!-- ══ DISCLAIMER ══ -->
 <div class="disclaimer-bar" role="note" aria-label="Aviso importante">
   <iconify-icon icon="lucide:info" width="14"></iconify-icon>
-  Este sitio es un recurso informativo elaborado por PROTELEM y <strong style="margin:0 3px;">no constituye un canal oficial de EPEC.</strong> Para trámites oficiales ingresá a&nbsp;<a href="https://www.epec.com.ar" target="_blank" rel="noopener noreferrer" style="color:#7a5c00; font-weight:700;">www.epec.com.ar</a>
+  <span class="disclaimer-full">Este sitio es un recurso informativo elaborado por la <strong style="margin:0 3px;">Subgerencia de Relaciones con el Cliente</strong> y no constituye un canal oficial de EPEC. Para trámites oficiales ingresá a&nbsp;<a href="https://www.epec.com.ar" target="_blank" rel="noopener noreferrer" style="color:#7a5c00; font-weight:700;">www.epec.com.ar</a></span>
+  <span class="disclaimer-short">Recurso informativo no oficial de EPEC &nbsp;·&nbsp; <a href="https://www.epec.com.ar" target="_blank" rel="noopener noreferrer" style="color:#7a5c00; font-weight:700;">www.epec.com.ar</a></span>
 </div>
 
 <!-- Overlay -->
@@ -838,7 +848,7 @@
           </div>
           <div class="hbox">
             <iconify-icon icon="lucide:alert-triangle" width="14" style="color:#b45309;margin-top:1px"></iconify-icon>
-            Si el resultado supera los <strong style="margin:0 4px;">12 kW</strong>, también debés presentar una planilla de carga calculada por un electricista habilitado.
+            Si el resultado supera los <strong>12 kW</strong>, también debés presentar una planilla de carga calculada por un electricista habilitado.
           </div>
         </div>
       </div>
@@ -1468,6 +1478,16 @@
 </div>
 
 <script>
+  function updateHeaderOffset() {
+    const topbar     = document.querySelector('.topbar');
+    const disclaimer = document.querySelector('.disclaimer-bar');
+    const total = (topbar?.offsetHeight || 60) + (disclaimer?.offsetHeight || 36);
+    document.documentElement.style.setProperty('--total-top', total + 'px');
+    document.documentElement.style.setProperty('--topbar-h',  (topbar?.offsetHeight || 60) + 'px');
+  }
+  updateHeaderOffset();
+  window.addEventListener('resize', updateHeaderOffset);
+
   function showSection(id, e) {
     if (e) e.preventDefault();
     document.querySelectorAll('.doc-section').forEach(s => s.classList.remove('visible'));
