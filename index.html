@@ -451,6 +451,76 @@
     @media (prefers-contrast: high) {
       .checklist li, .doc-example, .doc-nav-btn { border-width: 2px; }
     }
+
+    /* ══════════════════════════════════════
+       BOTÓN IMPRIMIR
+    ══════════════════════════════════════ */
+    .btn-print {
+      display: flex; align-items: center; gap: 6px;
+      margin-left: 12px; padding: 6px 13px;
+      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35);
+      border-radius: var(--radio); color: #fff;
+      font-size: .78rem; font-weight: 600; cursor: pointer;
+      transition: background .15s;
+      white-space: nowrap;
+    }
+    .btn-print:hover { background: rgba(255,255,255,.25); }
+
+    /* ══════════════════════════════════════
+       PORTADA DE IMPRESIÓN
+    ══════════════════════════════════════ */
+    .print-cover { display: none; }
+
+    /* ══════════════════════════════════════
+       CSS DE IMPRESIÓN / PDF
+    ══════════════════════════════════════ */
+    @media print {
+      /* Ocultar UI de navegación */
+      .topbar, .sidebar, .sidebar-overlay, .disclaimer-bar,
+      .doc-nav, .breadcrumb, .btn-print, .protelem-badge { display: none !important; }
+
+      /* Expandir todas las secciones */
+      .doc-section { display: block !important; opacity: 1 !important; }
+
+      /* Layout sin sidebar */
+      body { background: #fff; }
+      .main-layout { display: block !important; padding-top: 0 !important; }
+      main { margin: 0 !important; padding: 24px 32px !important; max-width: 100% !important; }
+
+      /* Saltos de página entre secciones principales */
+      #sec-paso1, #sec-paso2, #sec-paso3, #sec-paso4,
+      #sec-ref-beneficios, #sec-ref-faq { page-break-before: always; }
+
+      /* Tipografía para papel */
+      body { font-size: 11pt; color: #000; }
+      h1 { font-size: 17pt; margin-bottom: 6pt; }
+      h2 { font-size: 13pt; }
+      h3 { font-size: 11pt; }
+      p, li { line-height: 1.5; }
+
+      /* Mostrar URLs de links externos */
+      a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8.5pt; color: #555; }
+
+      /* Evitar cortes dentro de elementos */
+      .step, .callout, li, tr, .checklist li { page-break-inside: avoid; }
+
+      /* Márgenes de página A4 */
+      @page { margin: 2cm; size: A4; }
+
+      /* Portada visible solo al imprimir */
+      .print-cover {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 100vh;
+        page-break-after: always;
+      }
+      .print-cover h1 { font-size: 26pt; color: #1b5e20; margin-bottom: 12pt; }
+      .print-cover p  { font-size: 13pt; color: #444; margin: 4pt 0; }
+      .print-cover .print-logo { font-size: 18pt; font-weight: 800; color: #1b5e20; margin-bottom: 20pt; }
+    }
   </style>
 </head>
 <body>
@@ -480,6 +550,10 @@
     <span class="badge-full">Gerencia Comercial</span>
     <span class="badge-short">Sg. Relaciones c/ el Cliente</span>
   </a>
+  <button class="btn-print" onclick="window.print()" aria-label="Guardar guía como PDF">
+    <iconify-icon icon="lucide:download" width="14"></iconify-icon>
+    Guardar PDF
+  </button>
 </header>
 
 <!-- ══ DISCLAIMER ══ -->
@@ -544,6 +618,13 @@
   </nav>
 
   <!-- ══ CONTENIDO ══ -->
+  <div class="print-cover">
+    <div class="print-logo">EPEC</div>
+    <h1>Tarifa de Movilidad Eléctrica</h1>
+    <p>Guía de solicitud · Resolución ERSeP 44/2019</p>
+    <p>Gerencia Comercial</p>
+  </div>
+
   <main id="main-content" class="content" tabindex="-1">
 
     <!-- ─────────── INTRO ─────────── -->
